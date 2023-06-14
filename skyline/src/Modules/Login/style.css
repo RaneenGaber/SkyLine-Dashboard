@@ -1,0 +1,15 @@
+.container {
+  background-color: rgb(255, 255, 255, 0.3);
+  padding: 20px;
+  border: 1px solid white;
+  border-radius: 10px;
+  min-width: 30vw;
+  transition: transform 0.3s; /* Add a transition for smooth effect */
+
+  /* Set initial transform properties */
+  transform: scale(1);
+}
+
+.container:hover {
+  transform: scale(1.1); /* Apply the transform effect on hover */
+}
