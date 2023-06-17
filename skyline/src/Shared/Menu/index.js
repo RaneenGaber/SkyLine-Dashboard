@@ -9,16 +9,19 @@ import { Link, useLocation } from "react-router-dom";
 import SourceIcon from "@mui/icons-material/Source";
 import LinkIcon from "@mui/icons-material/Link";
 import routes from "../../Globals/routes";
+import { useMediaQuery } from "@mui/material";
+
 import "./style.css";
 import PopupState, {bindMenu } from "material-ui-popup-state";
 
 const NavMenu = ({ collapsed }) => {
   const location = useLocation();
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const NewMenuItem = styled(MenuItem)(({ theme }) => ({
     "&:hover": {
       backgroundColor: "rgba(255, 255, 255, 0.3)",
-      width: "130%",
+      width: "100%",
     },
   }));
 
@@ -31,7 +34,7 @@ const NavMenu = ({ collapsed }) => {
               key={index}
               sx={{
                 borderBottom: "3px solid white",
-                width: "130%",
+                width: "100%",
                 backgroundColor:
                   location.pathname === route.path
                     ? "rgba(255, 255, 255, 0.3)"
@@ -51,11 +54,14 @@ const NavMenu = ({ collapsed }) => {
                   sx={{ color: "white" }}
                   style={{
                     size: "22px",
-                    marginRight: "30px",
+                    marginRight: "20px",
                   }}
                 />
-
-                {route.sub ? null : route.label}
+                {collapsed || isSmallScreen
+                  ? null
+                  : route.sub
+                  ? null
+                  : route.label}
               </Link>
             </NewMenuItem>
           ) : route.sub ? (
@@ -77,11 +83,10 @@ const NavMenu = ({ collapsed }) => {
                         sx={{ color: "white" }}
                         style={{
                           size: "22px",
-                          marginRight: "30px",
+                          marginRight: "20px",
                         }}
                       />
-
-                      {route.label}
+                      {collapsed || isSmallScreen ? null : route.label}
                     </Link>
                   </NewMenuItem>
                   <Menu {...bindMenu(popupState)}>
@@ -89,17 +94,9 @@ const NavMenu = ({ collapsed }) => {
                       return subRoute.display ? (
                         <NewMenuItem key={index}>
                           <Link to={subRoute.path} key={index + subRoute.path}>
-                            {subRoute.label}
+                            {}
+                            {collapsed || isSmallScreen ? null : subRoute.label}
                           </Link>
-                          <Divider
-                            sx={{
-                              my: 0.5,
-                              borderWidth: "2px",
-                              borderColor: "white",
-                              opacity: 0.8,
-                              width: collapsed ? "0" : "130%",
-                            }}
-                          />
                         </NewMenuItem>
                       ) : null;
                     })}
