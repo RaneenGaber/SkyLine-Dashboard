@@ -29,17 +29,16 @@ const Topbar = ({ toggleCollapsed, collapsed }) => {
         left: "0",
         right: "0",
         zIndex: 20,
-        height: "10vh",
+        height: "11vh",
       }}
     >
-      <Toolbar style={{ marginLeft: "10px", marginTop: "10px" }}>
+      <Toolbar style={{ margin: "10px" }}>
         <img
           src={logo}
           alt="logo"
           style={{
             width: "3.3em",
-            margin: "10px 0 10px 0",
-            padding: "5px",
+            margin: "10px",
           }}
         />
         <CustomButton
@@ -50,12 +49,16 @@ const Topbar = ({ toggleCollapsed, collapsed }) => {
           aria-label="menu"
           sx={{ mr: 4, ml: 4 }}
         >
-          {collapsed ? <MenuOpenIcon /> : <MenuIcon />}
+          {collapsed ? (
+            <MenuOpenIcon style={{ width: "30px", height: "30px" }} />
+          ) : (
+            <MenuIcon style={{ width: "30px", height: "30px" }} />
+          )}
         </CustomButton>
         <Typography
           variant="h1"
           component="div"
-          sx={{ flexGrow: 1, fontSize: "24px" }}
+          sx={{ flexGrow: 1, fontSize: "40px" }}
         >
           Skyline Dashboard
         </Typography>

@@ -3,10 +3,11 @@ import CustomHeadeing from "../../Shared/CustomComponent/CustomHeading";
 import CustomCard from "../../Shared/CustomComponent/CustomCard";
 import "./style.css";
 
-const Flight = () => {
+const Hotel = () => {
   return (
     <Layout>
-      <CustomHeadeing title="Flight" />
+      <CustomHeadeing title="Hotel" />
+
       <div
         style={{
           display: "flex",
@@ -14,16 +15,15 @@ const Flight = () => {
           justifyContent: "center",
         }}
       >
-        <CustomCard
-          title1="Create Flight"
-          title2="List Flights"
-          link1="/Flight/create"
-          link2="/Flight/FlightList"
-        />
+          <CustomCard
+            title1="Create Hotel"
+            title2="List Hotels"
+            link1="/Hotel/Create"
+            link2="/Hotel/HotelList"
+          />
       </div>
-     
     </Layout>
   );
 };
 
-export default Flight;
+export default Hotel;

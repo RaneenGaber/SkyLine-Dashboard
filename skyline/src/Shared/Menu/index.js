@@ -1,18 +1,13 @@
 import * as React from "react";
-import Menu from "@mui/material/Menu";
 import { styled } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import Stack from "@mui/material/Stack";
-import Divider from "@mui/material/Divider";
 import { Link, useLocation } from "react-router-dom";
 import SourceIcon from "@mui/icons-material/Source";
-import LinkIcon from "@mui/icons-material/Link";
 import routes from "../../Globals/routes";
 import { useMediaQuery } from "@mui/material";
-
 import "./style.css";
-import PopupState, {bindMenu } from "material-ui-popup-state";
 
 const NavMenu = ({ collapsed }) => {
   const location = useLocation();
@@ -20,8 +15,12 @@ const NavMenu = ({ collapsed }) => {
 
   const NewMenuItem = styled(MenuItem)(({ theme }) => ({
     "&:hover": {
-      backgroundColor: "rgba(255, 255, 255, 0.3)",
+      backgroundColor: "rgba(0, 0, 0, 0.7)",
+      transition: "backgroundColor 0.5s ease-in",
+
       width: "100%",
+      borderBottom: "1px solid white",
+      borderRight: "1px solid white",
     },
   }));
 
@@ -29,16 +28,19 @@ const NavMenu = ({ collapsed }) => {
     <Stack>
       <MenuList>
         {routes.map((route, index) => {
-          return route.display && !route.sub ? (
+          return route.display ? (
             <NewMenuItem
               key={index}
               sx={{
-                borderBottom: "3px solid white",
                 width: "100%",
                 backgroundColor:
                   location.pathname === route.path
-                    ? "rgba(255, 255, 255, 0.3)"
+                    ? "rgba(0, 0, 0, 0.7)"
                     : "transparent",
+                borderBottom:
+                  location.pathname === route.path ? "1px solid white" : null,
+                borderRight:
+                  location.pathname === route.path ? "1px solid white" : null,
               }}
             >
               <Link
@@ -47,14 +49,15 @@ const NavMenu = ({ collapsed }) => {
                 id={route.path}
                 style={{
                   color: "white",
-                  fontSize: "22px",
+                  fontSize: "1.3vw",
                 }}
               >
                 <SourceIcon
                   sx={{ color: "white" }}
                   style={{
-                    size: "22px",
-                    marginRight: "20px",
+                    size: "1.3vw",
+                    paddingRight: "10px",
+                    paddingLeft: "10px",
                   }}
                 />
                 {collapsed || isSmallScreen
@@ -64,46 +67,6 @@ const NavMenu = ({ collapsed }) => {
                   : route.label}
               </Link>
             </NewMenuItem>
-          ) : route.sub ? (
-            <PopupState variant="popover" popupId="demo-popup-menu" key={index}>
-              {(popupState) => (
-                <>
-                  <NewMenuItem>
-                    <Link
-                      to={route.path}
-                      key={route.path}
-                      id={route.path}
-                      style={{
-                        color: "white",
-                        fontWeight: "bold",
-                        fontSize: "22px",
-                      }}
-                    >
-                      <LinkIcon
-                        sx={{ color: "white" }}
-                        style={{
-                          size: "22px",
-                          marginRight: "20px",
-                        }}
-                      />
-                      {collapsed || isSmallScreen ? null : route.label}
-                    </Link>
-                  </NewMenuItem>
-                  <Menu {...bindMenu(popupState)}>
-                    {route.sub.map((subRoute, index) => {
-                      return subRoute.display ? (
-                        <NewMenuItem key={index}>
-                          <Link to={subRoute.path} key={index + subRoute.path}>
-                            {}
-                            {collapsed || isSmallScreen ? null : subRoute.label}
-                          </Link>
-                        </NewMenuItem>
-                      ) : null;
-                    })}
-                  </Menu>
-                </>
-              )}
-            </PopupState>
           ) : null;
         })}
       </MenuList>

@@ -22,11 +22,7 @@ const Layout = ({ children }) => {
       <Box>
         <Topbar toggleCollapsed={toggleCollapsed} collapsed={collapsed} />
       </Box>
-      <Container
-        style={{
-          width: "100vw",
-        }}
-      >
+      <Box>
         <Box
           xs={2}
           style={{
@@ -35,25 +31,30 @@ const Layout = ({ children }) => {
             zIndex: 30,
             background: "#010e30",
             left: "0px",
-            width: isSmallScreen ? "90px" : collapsed ? "90px" : "250px",
+            width: isSmallScreen ? "6vw" : collapsed ? "6vw" : "12vw",
+            minWidth:"90px",
             transform: collapsed ? "translate(-250, 0)" : "translate(0px, 0)",
             transition: "all 0.5s ease-in-out",
-            marginTop: "4rem",
+            marginTop: "5rem",
           }}
         >
           <NavMenu collapsed={collapsed} />
         </Box>
         <Box
           style={{
-            paddingTop: "8rem",
-            marginLeft: isSmallScreen ? "90px" : collapsed ? "90px" : "250px",
+            alignItems: "center",
+            justifyContent: "center",
+            display: "flex",
+            flexDirection: "column",
+            paddingTop:"15vh",
+            paddingLeft: isSmallScreen ? "6vw" : collapsed ? "6vw" : "12vw",
             transform: collapsed ? "translate(-250, 0)" : "translate(0px, 0)",
             transition: "all 0.5s ease-in-out",
           }}
         >
           {children}
         </Box>
-      </Container>
+      </Box>
     </>
   );
 };

@@ -28,33 +28,29 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 import { visuallyHidden } from "@mui/utils";
-import AlertDialogSlide from "../../../Shared/CustomComponent/PopupText";
 import Loading from "../../../Shared/CustomComponent/Loading";
+import AlertDialogSlide from "../../../Shared/CustomComponent/PopupText";
 
 function createData(
   _id,
-  type,
-  flightNo,
-  classes,
-  from,
-  to,
-  fromDate,
-  toDate,
-  date,
+  hotelName,
   price,
+  country,
+  city,
+  address,
+  latitude,
+  longitude,
   isSelect
 ) {
   return {
     _id,
-    type,
-    flightNo,
-    classes,
-    from,
-    to,
-    fromDate,
-    toDate,
-    date,
+    hotelName,
     price,
+    country,
+    city,
+    address,
+    latitude,
+    longitude,
     isSelect,
   };
 }
@@ -89,58 +85,46 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "type",
+    id: "hotelName",
     numeric: false,
     disablePadding: true,
-    label: "type",
+    label: "Hotel Name",
   },
   {
-    id: "flightNo",
-    numeric: false,
-    disablePadding: true,
-    label: "flight Number",
-  },
-  {
-    id: "classes",
+    id: "country",
     numeric: false,
     disablePadding: false,
-    label: "Classes",
+    label: "Country",
   },
   {
-    id: "from",
+    id: "city",
     numeric: false,
     disablePadding: false,
-    label: "From",
+    label: "City",
   },
   {
-    id: "to",
+    id: "address",
     numeric: false,
     disablePadding: false,
-    label: "To",
-  },
-  {
-    id: "toData",
-    numeric: false,
-    disablePadding: false,
-    label: "To Data",
-  },
-  {
-    id: "fromData",
-    numeric: false,
-    disablePadding: false,
-    label: "From Data",
-  },
-  {
-    id: "data",
-    numeric: false,
-    disablePadding: false,
-    label: "Data",
+    label: "Address",
   },
   {
     id: "price",
     numeric: false,
     disablePadding: false,
     label: "Price",
+  },
+  {
+    id: "latitude",
+    numeric: true,
+    disablePadding: false,
+    label: "Latitude",
+  },
+  {
+    id: "longitude",
+    numeric: true,
+    disablePadding: false,
+    label: "Longitude",
   },
 ];
 
@@ -219,7 +203,7 @@ function EnhancedTableToolbar(props) {
     deletedData.map(async (e) => {
       // console.log(e._id)
       await axiosApi
-        .delete(`/api/v1/flights/${e._id}`, {
+        .delete(`/api/v1/hotels/${e._id}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + localStorage.getItem("user"),
@@ -284,9 +268,10 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function FlightList() {
+export default function HotelList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
   var [rows, setRows] = useState([]);
   const [isCheckAll, setIsCheckAll] = useState(false);
 
@@ -383,9 +368,9 @@ export default function FlightList() {
       ),
     [rows, order, orderBy, page, rowsPerPage]
   );
-  const getFlightList = async () => {
+  const getHotelList = async () => {
     const response = await axiosApi
-      .get("/api/v1/flights", {
+      .get("/api/v1/hotels", {
         headers: {
           "Access-Control-Allow-Origin": "*",
           Accept: "application/json",
@@ -395,21 +380,21 @@ export default function FlightList() {
       })
       .catch((err) => {
         console.error(`error${err}`);
+        setError(true)
       });
+      console.log(response);
     if (response !== undefined) {
       setLoading(false);
       const updatedRows = response.data.data.map((item) =>
         createData(
           item._id,
-          item.type,
-          item.flightNo,
-          item.classes,
-          item.from,
-          item.to,
-          item.toDate,
-          item.fromDate,
-          item.date,
+          item.hotelName,
           item.price,
+          item.country,
+          item.city,
+          item.address,
+          item.location.latitude,
+          item.location.longitude,
           false
         )
       );
@@ -419,9 +404,8 @@ export default function FlightList() {
   };
 
   useEffect(() => {
-    getFlightList();
+    getHotelList();
   }, []);
-  console.log("rows", rows);
 
   return (
     <Layout>
@@ -430,7 +414,7 @@ export default function FlightList() {
         <AlertDialogSlide message="Network error please connect to the Internet" />
       ) : (
         <>
-          <Paper sx={{ marginTop:"10vh",mb: 4, width: "80%" }}>
+          <Paper sx={{ marginTop: "10vh", mb: 4, width: "80%" }}>
             <EnhancedTableToolbar
               numSelected={selected.length}
               rows={rows}
@@ -453,26 +437,22 @@ export default function FlightList() {
                 <TableBody>
                   {visibleRows.map((row, index) => {
                     const {
-                      type,
-                      flightNo,
-                      classes,
-                      from,
-                      to,
-                      toDate,
-                      fromDate,
-                      date,
+                      hotelName,
                       price,
+                      country,
+                      city,
+                      address,
+                      latitude,
+                      longitude,
                     } = row;
                     const newRow = {
-                      type,
-                      flightNo,
-                      classes,
-                      from,
-                      to,
-                      toDate,
-                      fromDate,
-                      date,
+                      hotelName,
+                      country,
+                      city,
+                      address,
                       price,
+                      latitude,
+                      longitude,
                     };
                     const isItemSelected = isSelected(row._id);
                     const labelId = `enhanced-table-checkbox-${index}`;
@@ -504,7 +484,7 @@ export default function FlightList() {
                           <TableCell
                             align="right"
                             onClick={(e) =>
-                              navigate(`/Flight/FlightList/Details/${row._id}`)
+                              navigate(`/Hotel/HotelList/Details/${row._id}`)
                             }
                           >
                             {row[key]}

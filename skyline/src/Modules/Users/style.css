@@ -1,0 +1,15 @@
+.custom-header {
+  background-color: #010e30; 
+  color: white; 
+  font-size: 22px;
+  font-weight: bold; 
+  /* Add other custom styles as needed */
+}
+.custom-header .MuiDataGrid-menuIcon svg {
+  fill: white; /* Set the desired color for the menu */
+}
+.table-body 
+{
+ text-align: center;
+  background-color: rgb(252, 252, 252); /* Set the background color for even rows */
+}

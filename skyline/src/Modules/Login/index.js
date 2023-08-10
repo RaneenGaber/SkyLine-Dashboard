@@ -38,7 +38,7 @@ export default function Login() {
       });
   };
 
-  if (loggedIn) return <Navigate to="/" />;
+  if (loggedIn) return <Navigate to="/Flight" />;
   const CustomButton = styled(Button)(({ theme }) => ({
     color: "white",
     backgroundColor: "#010e30",
